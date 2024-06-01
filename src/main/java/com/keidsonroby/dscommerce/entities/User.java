@@ -1,11 +1,14 @@
 package com.keidsonroby.dscommerce.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +24,9 @@ public class User {
   private String name;
   private String phone;
   private LocalDate birthDate;
+  // Mapeando o atributo "client" da tabela "tb_order"
+  @OneToMany(mappedBy = "client") // relacionamento 1 (um cliente/user), para mutios (muitos pedidos);
+  private List<Order> orders = new ArrayList<>();
 
   public User() { }
 
@@ -79,5 +85,9 @@ public class User {
 
   public void setBirthDate(LocalDate birthDate) {
     this.birthDate = birthDate;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
   }
 }
