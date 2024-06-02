@@ -1,6 +1,7 @@
 package com.keidsonroby.dscommerce.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -38,6 +40,9 @@ public class Product {
   private Set<Category> categories = new HashSet<>();
   // um produto tem uma Lista de categorias;
   // Set para uma coleção de categorias, para indicar que n tem repeticão entre produto id e categoria id;
+
+  @OneToMany(mappedBy = "id.product")
+  private Set<OrderItem> items = new HashSet<>();
 
   public Product() { }
 
@@ -91,5 +96,13 @@ public class Product {
 
   public Set<Category> getCategories() {
     return categories;
+  }
+
+  public Set<OrderItem> getItems() {
+    return items;
+  }
+
+  public List<Order> getOrders() {
+    return items.stream().map(x -> x.getOrder()).toList();
   }
 }
